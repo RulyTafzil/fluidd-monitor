@@ -92,7 +92,10 @@ def eta_string(seconds_remaining: float) -> str:
     return (datetime.now() + timedelta(seconds=seconds_remaining)).strftime("%I:%M %p")
 
 
-def pct_bar(progress: float, width: int = 40) -> str:
+def pct_bar(progress: float, width: int | None = None) -> str:
+    if width is None:
+        # Account for panel borders (2), padding (2 each side), and leading spaces (2)
+        width = max(10, console.width - 10)
     filled = int(progress * width)
     return "█" * filled + "░" * (width - filled)
 
@@ -145,7 +148,7 @@ def build_temps_panel(
     fan_speed: float,
 ) -> Panel:
     t = Table.grid(padding=(0, 2))
-    t.add_column(style="dim", width=10)
+    t.add_column(style="dim", width=14)
     t.add_column()
 
     t.add_row("🔥 Hotend", fmt_temp(extruder_temp, extruder_target))
@@ -168,7 +171,7 @@ def build_motion_panel(
     pos_z: float,
 ) -> Panel:
     t = Table.grid(padding=(0, 2))
-    t.add_column(style="dim", width=18)
+    t.add_column(style="dim", width=14)
     t.add_column()
 
     t.add_row("⚡ Speed",    f"{speed * 60:.0f} mm/min  ({speed_factor * 100:.0f}% factor)")
@@ -200,8 +203,8 @@ def build_layout(host: str, state: dict | None, error: str | None) -> Layout:
         Layout(name="footer", size=1),
     )
     layout["details"].split_row(
-        Layout(name="temps"),
-        Layout(name="motion"),
+        Layout(name="temps", ratio=1),
+        Layout(name="motion", ratio=2),
     )
 
     if error or state is None:
