@@ -95,7 +95,7 @@ def eta_string(seconds_remaining: float) -> str:
 def pct_bar(progress: float, width: int | None = None) -> str:
     if width is None:
         # Account for panel borders (2), padding (2 each side), and leading spaces (2)
-        width = max(10, console.width - 10)
+        width = max(10, console.width - 20)
     filled = int(progress * width)
     return "█" * filled + "░" * (width - filled)
 
