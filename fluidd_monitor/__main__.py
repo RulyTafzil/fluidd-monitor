@@ -203,8 +203,8 @@ def build_layout(host: str, state: dict | None, error: str | None) -> Layout:
         Layout(name="footer", size=1),
     )
     layout["details"].split_row(
-        Layout(name="temps", ratio=1),
-        Layout(name="motion", ratio=2),
+        Layout(name="temps", ratio=3),
+        Layout(name="motion", ratio=5),
     )
 
     if error or state is None:
