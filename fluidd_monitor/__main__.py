@@ -199,7 +199,7 @@ def build_layout(host: str, state: dict | None, error: str | None) -> Layout:
     layout.split_column(
         Layout(name="header", size=3),
         Layout(name="progress", size=6),
-        Layout(name="details", size=7),
+        Layout(name="details", size=5),
         Layout(name="footer", size=1),
     )
     layout["details"].split_row(
