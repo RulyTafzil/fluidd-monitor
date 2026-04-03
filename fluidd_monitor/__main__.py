@@ -74,10 +74,7 @@ def get_server_info(host: str, port: int) -> dict | None:
 def fmt_temp(current: float, target: float) -> str:
     bar_len = 10
     if target > 0:
-        ratio = min(current / target, 1.0)
-        filled = int(ratio * bar_len)
-        bar = "█" * filled + "░" * (bar_len - filled)
-        return f"{current:.1f}°/{target:.0f}° [{bar}] {ratio*100:.0f}%"
+        return f"{current:.1f}°/{target:.0f}°"
     return f"{current:.1f}° (off)"
 
 
