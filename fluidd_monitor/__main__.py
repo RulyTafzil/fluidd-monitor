@@ -196,17 +196,19 @@ def build_layout(host: str, state: dict | None, error: str | None) -> Layout:
     layout = Layout()
     layout.split_column(
         Layout(name="header", size=3),
-        Layout(name="body"),
+        Layout(name="progress", size=6),
+        Layout(name="details", size=7),
         Layout(name="footer", size=1),
     )
-    layout["body"].split_row(
-        Layout(name="left"),
-        Layout(name="right", ratio=2),
+    layout["details"].split_row(
+        Layout(name="temps"),
+        Layout(name="motion"),
     )
 
     if error or state is None:
         layout["header"].update(build_header(host, "OFFLINE", "bold red"))
-        layout["body"].update(build_error_panel(error or "Cannot reach printer"))
+        layout["progress"].update(build_error_panel(error or "Cannot reach printer"))
+        layout["details"].update("")
         layout["footer"].update(
             Text(
                 f"  Last attempt: {datetime.now().strftime('%H:%M:%S')} — retrying…",
@@ -249,12 +251,14 @@ def build_layout(host: str, state: dict | None, error: str | None) -> Layout:
 
     # ── assemble layout ───────────────────────────────────────────────────────
     layout["header"].update(build_header(host, state_str, state_color))
-    layout["right"].update(
+    layout["progress"].update(
         build_progress_panel(filename, progress, print_duration, total_duration)
     )
-    layout["left"].split_column(
-        Layout(build_temps_panel(ext_temp, ext_target, bed_temp, bed_target, fan_speed)),
-        Layout(build_motion_panel(speed, speed_factor, pos[0], pos[1], pos[2])),
+    layout["temps"].update(
+        build_temps_panel(ext_temp, ext_target, bed_temp, bed_target, fan_speed)
+    )
+    layout["motion"].update(
+        build_motion_panel(speed, speed_factor, pos[0], pos[1], pos[2])
     )
     layout["footer"].update(
         Text(
