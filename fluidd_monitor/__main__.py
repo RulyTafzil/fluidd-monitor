@@ -145,13 +145,12 @@ def build_temps_panel(
     fan_speed: float,
 ) -> Panel:
     t = Table.grid(padding=(0, 2))
-    t.add_column(style="dim", width=14)
+    t.add_column(style="dim", width=10)
     t.add_column()
 
-    fan_bar = "█" * int(fan_speed * 10) + "░" * (10 - int(fan_speed * 10))
     t.add_row("🔥 Hotend", fmt_temp(extruder_temp, extruder_target))
     t.add_row("🛏  Bed",   fmt_temp(bed_temp, bed_target))
-    t.add_row("💨 Fan",    f"{fan_speed * 100:.0f}%  [{fan_bar}]")
+    t.add_row("💨 Fan",    f"{fan_speed * 100:.0f}%")
 
     return Panel(
         t,
@@ -169,7 +168,7 @@ def build_motion_panel(
     pos_z: float,
 ) -> Panel:
     t = Table.grid(padding=(0, 2))
-    t.add_column(style="dim", width=14)
+    t.add_column(style="dim", width=18)
     t.add_column()
 
     t.add_row("⚡ Speed",    f"{speed * 60:.0f} mm/min  ({speed_factor * 100:.0f}% factor)")
